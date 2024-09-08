@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  movies:
+    build:
+      context: .
+      target: ${ENVIRONMENT}
+    platform: linux/amd64
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
+      - ENVIRONMENT=${ENVIRONMENT}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./:/app/"
