@@ -6,6 +6,7 @@ ENV PATH=${POETRY_HOME}/bin:${PATH}
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y curl \
+    && apt-get -y install gcc postgresql \ 
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
