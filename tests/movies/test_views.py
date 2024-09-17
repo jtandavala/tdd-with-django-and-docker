@@ -35,5 +35,25 @@ def test_add_movie_invalid_json(client):
         {},
         content_type="application/json"
     )
+
+    assert resp.status_code == 400
+    movies = Movie.objects.all()
+    assert len(movies) == 0
+
+
+@pytest.mark.django_db
+def test_add_movie_invalid_json_keys(client):
+    movies = Movie.objects.all()
+    assert len(movies) == 0
+
+    resp = client.post(
+        "/api/movies/",
+        {
+            "genre": "comedy",
+            "year": "2024"
+        }
+    )
+
+    assert resp.status_code == 400
     movies = Movie.objects.all()
     assert len(movies) == 0
