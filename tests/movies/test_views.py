@@ -67,3 +67,8 @@ def test_get_single_movie(client):
     assert resp.data["title"] == "test"
 
 
+def test_get_single_movie_with_incorrect_id(client):
+    resp = client.get(f"/api/movies/fake_id/")
+    assert resp.status_code == 404
+
+
