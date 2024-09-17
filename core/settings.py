@@ -76,16 +76,42 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("POSTGRES_DB"),
-        "USER": config("POSTGRES_USER"),
-        "PASSWORD": config("POSTGRES_PASSWORD"),
-        "HOST": config("POSTGRES_HOST"),
-        "PORT": "5432"
+
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "movies",
+#         "USER": "movies",
+#         "PASSWORD": "movies",
+#         "HOST": "movies-db",
+#         "PORT": "5432"
+#     },
+#     "test": {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': ':memory:',  # Use in-memory SQLite for faster tests
+#     }
+# }
+
+
+if os.getenv('DJANGO_TEST', 'false') == 'true':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "movies",
+            "USER": "movies",
+            "PASSWORD": "movies",
+            "HOST": "movies-db",
+            "PORT": "5432"
+        }
+    }
 
 
 # Password validation

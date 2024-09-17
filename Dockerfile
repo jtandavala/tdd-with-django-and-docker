@@ -5,8 +5,7 @@ ENV POETRY_HOME=/opt/poetry
 ENV PATH=${POETRY_HOME}/bin:${PATH}
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends -y curl \
-    && apt-get -y install gcc postgresql \ 
+    && apt-get install --no-install-recommends -y curl gcc postgresql \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -19,17 +18,18 @@ FROM base as builder
 
 WORKDIR /app
 COPY poetry.lock pyproject.toml ./
+
+# Install both main and dev dependencies for development
 RUN poetry config virtualenvs.in-project true
-RUN poetry install --only main --no-interaction
+RUN poetry install --no-interaction --no-root
 
 FROM base as runner
 
 WORKDIR /app
 COPY --from=builder /app/.venv /app/.venv
-
 COPY . /app
-RUN mkdir -p /db
 
+RUN mkdir -p /db
 RUN chmod +x /app/entrypoint.sh
 
 EXPOSE 8000

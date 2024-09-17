@@ -1,3 +1,6 @@
 #!/bin/sh
 
-docker compose exec movies poetry run pytest
+docker compose exec -e DJANGO_TEST=true movies poetry run pytest --reuse-db
+
+
+
