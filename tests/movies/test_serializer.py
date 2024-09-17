@@ -1,4 +1,6 @@
+
 from movies.serializers import MovieSerializer
+
 
 def test_valid_movie_serializer():
     valid_serializer_data = {
@@ -12,3 +14,5 @@ def test_valid_movie_serializer():
     assert serializer.validated_data == valid_serializer_data
     assert serializer.data == valid_serializer_data
     assert serializer.errors == {}
+
+

@@ -24,3 +24,16 @@ def test_add_movie(client):
 
     movies = Movie.objects.all()
     assert len(movies) == 1
+
+@pytest.mark.django_db
+def test_add_movie_invalid_json(client):
+    movies = Movie.objects.all()
+    assert len(movies) == 0
+
+    resp = client.post(
+        "/api/movies/",
+        {},
+        content_type="application/json"
+    )
+    movies = Movie.objects.all()
+    assert len(movies) == 0
